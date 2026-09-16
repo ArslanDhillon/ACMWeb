@@ -24,61 +24,60 @@ export default function ThreeCanvas() {
     container.innerHTML = "";
     container.appendChild(renderer.domElement);
 
-    // Group to hold our 3D core
+    // Group to hold 3D core
     const group = new THREE.Group();
     scene.add(group);
 
-    // 1. Central Icosahedron Crystal
+    // 1. Central Sapphire / Sky-Blue Icosahedron Crystal
     const geometry = new THREE.IcosahedronGeometry(2, 0);
     const material = new THREE.MeshPhysicalMaterial({
       color: 0x0284c7,
       emissive: 0x0369a1,
-      emissiveIntensity: 0.4,
-      roughness: 0.1,
-      metalness: 0.9,
+      emissiveIntensity: 0.3,
+      roughness: 0.05,
+      metalness: 0.6,
       clearcoat: 1.0,
-      clearcoatRoughness: 0.1,
-      wireframe: false,
+      clearcoatRoughness: 0.05,
       transparent: true,
-      opacity: 0.85,
+      opacity: 0.9,
     });
     const crystal = new THREE.Mesh(geometry, material);
     group.add(crystal);
 
     // 2. Wireframe glowing outline
-    const wireframeGeometry = new THREE.IcosahedronGeometry(2.05, 0);
+    const wireframeGeometry = new THREE.IcosahedronGeometry(2.04, 0);
     const wireframeMaterial = new THREE.MeshBasicMaterial({
       color: 0x38bdf8,
       wireframe: true,
       transparent: true,
-      opacity: 0.9,
+      opacity: 0.95,
     });
     const wireframe = new THREE.Mesh(wireframeGeometry, wireframeMaterial);
     group.add(wireframe);
 
-    // 3. Surrounding Rotating Orbital Rings
-    const ringGeo1 = new THREE.TorusGeometry(3.1, 0.04, 16, 100);
+    // 3. Rotating Orbital Rings
+    const ringGeo1 = new THREE.TorusGeometry(3.1, 0.045, 16, 100);
     const ringMat1 = new THREE.MeshBasicMaterial({
-      color: 0x7dd3fc,
+      color: 0x0ea5e9,
       transparent: true,
-      opacity: 0.7,
+      opacity: 0.8,
     });
     const ring1 = new THREE.Mesh(ringGeo1, ringMat1);
     ring1.rotation.x = Math.PI / 3;
     group.add(ring1);
 
-    const ringGeo2 = new THREE.TorusGeometry(3.4, 0.03, 16, 100);
+    const ringGeo2 = new THREE.TorusGeometry(3.4, 0.035, 16, 100);
     const ringMat2 = new THREE.MeshBasicMaterial({
-      color: 0x0284c7,
+      color: 0x0369a1,
       transparent: true,
-      opacity: 0.5,
+      opacity: 0.65,
     });
     const ring2 = new THREE.Mesh(ringGeo2, ringMat2);
     ring2.rotation.y = Math.PI / 4;
     group.add(ring2);
 
-    // 4. Ambient floating particles
-    const particleCount = 120;
+    // 4. Floating particle constellation
+    const particleCount = 100;
     const particleGeo = new THREE.BufferGeometry();
     const particlePositions = new Float32Array(particleCount * 3);
 
@@ -90,23 +89,23 @@ export default function ThreeCanvas() {
     particleGeo.setAttribute("position", new THREE.BufferAttribute(particlePositions, 3));
 
     const particleMat = new THREE.PointsMaterial({
-      color: 0x38bdf8,
-      size: 0.07,
+      color: 0x0284c7,
+      size: 0.08,
       transparent: true,
-      opacity: 0.8,
+      opacity: 0.85,
     });
     const particles = new THREE.Points(particleGeo, particleMat);
     scene.add(particles);
 
-    // Lights
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
+    // Bright Lights for Light Canvas
+    const ambientLight = new THREE.AmbientLight(0xffffff, 1.2);
     scene.add(ambientLight);
 
-    const pointLight1 = new THREE.PointLight(0x38bdf8, 2, 50);
+    const pointLight1 = new THREE.PointLight(0x0ea5e9, 2.5, 50);
     pointLight1.position.set(5, 5, 5);
     scene.add(pointLight1);
 
-    const pointLight2 = new THREE.PointLight(0x0ea5e9, 1.5, 50);
+    const pointLight2 = new THREE.PointLight(0x0284c7, 2.0, 50);
     pointLight2.position.set(-5, -5, -2);
     scene.add(pointLight2);
 
@@ -124,7 +123,6 @@ export default function ThreeCanvas() {
 
     window.addEventListener("mousemove", onMouseMove);
 
-    // Resize handler
     const onResize = () => {
       if (!container) return;
       const w = container.clientWidth;
@@ -135,12 +133,10 @@ export default function ThreeCanvas() {
     };
     window.addEventListener("resize", onResize);
 
-    // Animation loop
     let animationFrameId: number;
     const animate = () => {
       animationFrameId = requestAnimationFrame(animate);
 
-      // Smooth mouse follow
       targetX += (mouseX - targetX) * 0.05;
       targetY += (mouseY - targetY) * 0.05;
 
@@ -171,7 +167,7 @@ export default function ThreeCanvas() {
   return (
     <div className="relative w-full h-[400px] lg:h-[480px] flex items-center justify-center">
       {/* Background glow halo */}
-      <div className="absolute w-72 h-72 rounded-full bg-sky-500/20 blur-[80px] pointer-events-none" />
+      <div className="absolute w-72 h-72 rounded-full bg-sky-200/50 blur-[80px] pointer-events-none" />
       <div ref={containerRef} className="w-full h-full cursor-grab active:cursor-grabbing" />
     </div>
   );

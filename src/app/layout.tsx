@@ -29,9 +29,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en">
       <body
-        className={`${plusJakartaSans.variable} ${spaceGrotesk.variable} min-h-screen bg-[#0b0f19] text-[#f1f5f9] antialiased relative selection:bg-sky-500 selection:text-white flex flex-col`}
+        className={`${plusJakartaSans.variable} ${spaceGrotesk.variable} min-h-screen bg-[#f8fafc] text-slate-800 antialiased relative selection:bg-sky-500 selection:text-white flex flex-col`}
       >
         <AmbientBackground />
         <Navbar />

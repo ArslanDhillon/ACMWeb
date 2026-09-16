@@ -8,15 +8,11 @@ import {
   Clock, 
   MapPin, 
   Users, 
-  Sparkles, 
   ArrowRight, 
-  Search, 
-  CheckCircle2, 
-  ExternalLink 
+  Search 
 } from "lucide-react";
 
 export default function EventsPage() {
-  const [activeTab, setActiveTab] = useState("UPCOMING");
   const [filterType, setFilterType] = useState("ALL");
   const [search, setSearch] = useState("");
 
@@ -111,26 +107,26 @@ export default function EventsPage() {
     <div className="space-y-20 pb-24">
       {/* 1. HERO */}
       <section className="relative pt-12 lg:pt-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-5">
-        <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-sky-500/10 border border-sky-400/30 text-sky-300 text-xs font-semibold badge-glow">
-          <Calendar className="w-3.5 h-3.5 text-sky-400" />
+        <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-sky-100/80 border border-sky-300 text-sky-800 text-xs font-semibold badge-glow">
+          <Calendar className="w-3.5 h-3.5 text-sky-600" />
           <span>CHAPTER EVENT CALENDAR • 2026</span>
         </div>
 
-        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-[1.15]">
+        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.15]">
           Upcoming Hackathons &amp;{" "}
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 via-cyan-300 to-blue-500 text-glow">
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-600 via-cyan-600 to-blue-700">
             Tech Workshops
           </span>
         </h1>
 
-        <p className="text-base text-slate-300 max-w-2xl mx-auto leading-relaxed">
+        <p className="text-base text-slate-600 max-w-2xl mx-auto leading-relaxed">
           From intensive 36-hour hackathons to hands-on systems programming bootcamps and ICPC contest qualifiers. Explore our upcoming chapter schedule.
         </p>
       </section>
 
       {/* 2. SEARCH & FILTER BAR */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-4 glass-panel p-4 rounded-2xl border border-sky-400/20">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-4 glass-panel p-4 rounded-2xl border border-sky-200/80 shadow-sm">
           <div className="flex flex-wrap items-center gap-1.5 w-full md:w-auto">
             {[
               { id: "ALL", label: "All Categories" },
@@ -142,10 +138,10 @@ export default function EventsPage() {
               <button
                 key={tab.id}
                 onClick={() => setFilterType(tab.id)}
-                className={`px-3.5 py-1.5 rounded-xl text-xs font-medium transition-all ${
+                className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-all ${
                   filterType === tab.id
-                    ? "bg-sky-500 text-white font-semibold shadow-[0_0_15px_rgba(56,189,248,0.4)]"
-                    : "text-slate-300 hover:text-white hover:bg-slate-800/50"
+                    ? "bg-sky-600 text-white shadow-[0_4px_14px_rgba(14,165,233,0.35)]"
+                    : "text-slate-600 hover:text-sky-700 hover:bg-sky-50 bg-white border border-sky-100"
                 }`}
               >
                 {tab.label}
@@ -154,13 +150,13 @@ export default function EventsPage() {
           </div>
 
           <div className="relative w-full md:w-72">
-            <Search className="w-4 h-4 text-sky-400 absolute left-3 top-1/2 -translate-y-1/2" />
+            <Search className="w-4 h-4 text-sky-500 absolute left-3 top-1/2 -translate-y-1/2" />
             <input
               type="text"
               placeholder="Search event name, topic, speaker..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full pl-9 pr-4 py-1.5 rounded-xl bg-slate-900/90 border border-sky-400/25 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-sky-400 focus:ring-1 focus:ring-sky-400"
+              className="w-full pl-9 pr-4 py-1.5 rounded-xl bg-white border border-sky-300 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 shadow-xs"
             />
           </div>
         </div>
@@ -168,55 +164,55 @@ export default function EventsPage() {
         {/* 3. EVENT CARDS GRID */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {filtered.map((event) => (
-            <TiltCard key={event.id} className="glass-card p-7 border border-sky-400/20 flex flex-col justify-between h-full group">
+            <TiltCard key={event.id} className="glass-card p-7 border border-sky-200/80 flex flex-col justify-between h-full group">
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <span className="px-3 py-1 rounded-full text-[10px] font-bold text-sky-300 bg-sky-500/10 border border-sky-400/30">
+                  <span className="px-3 py-1 rounded-full text-[10px] font-bold text-sky-800 bg-sky-100 border border-sky-300">
                     {event.type}
                   </span>
                   <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-semibold ${
                     event.status === "OPEN" 
-                      ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/30" 
-                      : "bg-amber-500/10 text-amber-400 border border-amber-500/30"
+                      ? "bg-emerald-50 text-emerald-700 border border-emerald-300" 
+                      : "bg-amber-50 text-amber-700 border border-amber-300"
                   }`}>
                     {event.status === "OPEN" ? "● RSVP OPEN" : "● WAITLIST"}
                   </span>
                 </div>
 
-                <h3 className="text-xl font-bold text-white group-hover:text-sky-300 transition-colors">
+                <h3 className="text-xl font-bold text-slate-900 group-hover:text-sky-600 transition-colors">
                   {event.title}
                 </h3>
 
-                <p className="text-xs text-slate-300 leading-relaxed">
+                <p className="text-xs text-slate-600 leading-relaxed">
                   {event.description}
                 </p>
 
-                <div className="space-y-2 pt-2 text-xs text-slate-400">
+                <div className="space-y-2 pt-2 text-xs text-slate-500">
                   <div className="flex items-center gap-2">
-                    <Calendar className="w-3.5 h-3.5 text-sky-400" />
+                    <Calendar className="w-3.5 h-3.5 text-sky-600" />
                     <span>{event.date}</span>
-                    <span className="text-slate-600">•</span>
-                    <Clock className="w-3.5 h-3.5 text-sky-400" />
+                    <span className="text-slate-300">•</span>
+                    <Clock className="w-3.5 h-3.5 text-sky-600" />
                     <span>{event.time}</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <MapPin className="w-3.5 h-3.5 text-sky-400" />
+                    <MapPin className="w-3.5 h-3.5 text-sky-600" />
                     <span>{event.venue}</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Users className="w-3.5 h-3.5 text-sky-400" />
+                    <Users className="w-3.5 h-3.5 text-sky-600" />
                     <span>{event.seats}</span>
                   </div>
                 </div>
               </div>
 
-              <div className="mt-6 pt-5 border-t border-slate-800/80 flex items-center justify-between">
-                <span className="text-[11px] text-slate-400 font-medium truncate max-w-[200px]">
+              <div className="mt-6 pt-5 border-t border-slate-200 flex items-center justify-between">
+                <span className="text-[11px] text-slate-500 font-medium truncate max-w-[200px]">
                   {event.speaker}
                 </span>
                 <Link
                   href={event.href}
-                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-semibold text-white bg-sky-500/20 hover:bg-sky-500 border border-sky-400/30 hover:border-sky-400 transition-all shadow-[0_0_12px_rgba(56,189,248,0.2)]"
+                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-semibold text-white bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-400 hover:to-blue-500 shadow-[0_4px_14px_rgba(14,165,233,0.3)] transition-all"
                 >
                   <span>Register Now</span>
                   <ArrowRight className="w-3.5 h-3.5" />

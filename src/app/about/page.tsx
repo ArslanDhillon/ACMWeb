@@ -8,11 +8,8 @@ import {
   Globe, 
   Target, 
   Zap, 
-  CheckCircle2, 
-  BookOpen, 
-  ArrowRight 
+  GraduationCap 
 } from "lucide-react";
-import Link from "next/link";
 
 export default function AboutPage() {
   const milestones = [
@@ -75,19 +72,19 @@ export default function AboutPage() {
     <div className="space-y-20 pb-24">
       {/* 1. HERO */}
       <section className="relative pt-12 lg:pt-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-5">
-        <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-sky-500/10 border border-sky-400/30 text-sky-300 text-xs font-semibold badge-glow">
-          <ShieldCheck className="w-3.5 h-3.5 text-sky-400" />
+        <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-sky-100/80 border border-sky-300 text-sky-800 text-xs font-semibold badge-glow">
+          <ShieldCheck className="w-3.5 h-3.5 text-sky-600" />
           <span>OFFICIALLY CHARTERED ACM STUDENT CHAPTER</span>
         </div>
 
-        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-[1.15]">
+        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.15]">
           Pioneering the Future of{" "}
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 via-cyan-300 to-blue-500 text-glow">
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-600 via-cyan-600 to-blue-700">
             Computing Excellence
           </span>
         </h1>
 
-        <p className="text-base text-slate-300 max-w-2xl mx-auto leading-relaxed">
+        <p className="text-base text-slate-600 max-w-2xl mx-auto leading-relaxed">
           The Association for Computing Machinery (ACM) is the world&apos;s largest educational and scientific computing society. Our student chapter brings this international standard directly to our campus.
         </p>
       </section>
@@ -98,12 +95,12 @@ export default function AboutPage() {
           {values.map((v, i) => {
             const Icon = v.icon;
             return (
-              <TiltCard key={i} className="glass-card p-6 border border-sky-400/20">
-                <div className="w-10 h-10 rounded-xl bg-sky-500/15 border border-sky-400/30 flex items-center justify-center text-sky-400 mb-4">
+              <TiltCard key={i} className="glass-card p-6 border border-sky-200/80">
+                <div className="w-10 h-10 rounded-xl bg-sky-100/80 border border-sky-300 flex items-center justify-center text-sky-600 mb-4 shadow-sm">
                   <Icon className="w-5 h-5" />
                 </div>
-                <h3 className="text-base font-bold text-white mb-2">{v.title}</h3>
-                <p className="text-xs text-slate-400 leading-relaxed">{v.desc}</p>
+                <h3 className="text-base font-bold text-slate-900 mb-2">{v.title}</h3>
+                <p className="text-xs text-slate-600 leading-relaxed">{v.desc}</p>
               </TiltCard>
             );
           })}
@@ -113,16 +110,16 @@ export default function AboutPage() {
       {/* 3. CHAPTER HISTORY TIMELINE */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         <div className="text-center space-y-2">
-          <span className="text-xs font-bold text-sky-400 uppercase tracking-widest">CHAPTER JOURNEY</span>
-          <h2 className="text-3xl font-extrabold text-white">Milestones &amp; History</h2>
+          <span className="text-xs font-bold text-sky-700 uppercase tracking-widest">CHAPTER JOURNEY</span>
+          <h2 className="text-3xl font-extrabold text-slate-900">Milestones &amp; History</h2>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {milestones.map((m, i) => (
-            <div key={i} className="glass-panel p-6 rounded-2xl border border-sky-400/20 relative">
-              <div className="text-2xl font-black text-sky-400 font-mono mb-2">{m.year}</div>
-              <h3 className="text-base font-bold text-white mb-1.5">{m.title}</h3>
-              <p className="text-xs text-slate-400 leading-relaxed">{m.desc}</p>
+            <div key={i} className="glass-panel p-6 rounded-2xl border border-sky-200 relative">
+              <div className="text-2xl font-black text-sky-600 font-mono mb-2">{m.year}</div>
+              <h3 className="text-base font-bold text-slate-900 mb-1.5">{m.title}</h3>
+              <p className="text-xs text-slate-600 leading-relaxed">{m.desc}</p>
             </div>
           ))}
         </div>
@@ -130,18 +127,18 @@ export default function AboutPage() {
 
       {/* 4. FACULTY ADVISOR DESK */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="glass-panel p-8 sm:p-12 rounded-3xl border border-sky-400/25 relative">
+        <div className="glass-panel p-8 sm:p-12 rounded-3xl border border-sky-200/80 relative shadow-[0_20px_50px_rgba(14,165,233,0.1)]">
           <div className="max-w-3xl space-y-4">
-            <span className="text-xs font-bold text-sky-400 uppercase tracking-wider">FROM THE FACULTY ADVISOR DESK</span>
-            <h3 className="text-2xl sm:text-3xl font-bold text-white">
+            <span className="text-xs font-bold text-sky-700 uppercase tracking-wider">FROM THE FACULTY ADVISOR DESK</span>
+            <h3 className="text-2xl sm:text-3xl font-bold text-slate-900">
               &quot;Inspiring students to think critically, code rigorously, and solve humanity&apos;s toughest technical challenges.&quot;
             </h3>
-            <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
               Our ACM Chapter serves as an incubator for future computer scientists, software architects, and innovators. Through structured workshops, competitive programming squads, and international student conferences, our members leave university with both exceptional technical prowess and collaborative leadership skills.
             </p>
             <div className="pt-2 text-xs">
-              <div className="font-bold text-white">Dr. Asif Ali Laghari</div>
-              <div className="text-sky-400">Associate Professor &amp; ACM Chapter Faculty Sponsor</div>
+              <div className="font-bold text-slate-900">Dr. Asif Ali Laghari</div>
+              <div className="text-sky-600 font-semibold">Associate Professor &amp; ACM Chapter Faculty Sponsor</div>
             </div>
           </div>
         </div>
