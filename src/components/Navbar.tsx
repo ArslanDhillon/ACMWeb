@@ -1,140 +1,229 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { 
-  Menu, 
-  X, 
-  Sparkles, 
-  Cpu, 
-  Users, 
-  Calendar, 
-  Trophy, 
-  BookOpen, 
-  Image as ImageIcon, 
-  Mail, 
-  LayoutDashboard,
-  ShieldCheck
+import {
+  Menu,
+  X,
+  ChevronDown,
+  LogIn,
+  UserPlus,
 } from "lucide-react";
+
+type NavItem = {
+  name: string;
+  href: string;
+  children?: { name: string; href: string }[];
+};
+
+const navItems: NavItem[] = [
+  { name: "Home", href: "/" },
+  {
+    name: "About",
+    href: "/about",
+    children: [
+      { name: "Our Mission", href: "/about#mission" },
+      { name: "Faculty Advisor", href: "/about#advisor" },
+      { name: "Sub-Committees", href: "/about#committees" },
+    ],
+  },
+  { name: "Events", href: "/events" },
+  { name: "Team", href: "/members" },
+  { name: "Gallery", href: "/gallery" },
+  { name: "Resources", href: "/resources" },
+  { name: "Contact", href: "/contact" },
+];
+
+function DropdownMenu({
+  children,
+  isOpen,
+}: {
+  children: { name: string; href: string }[];
+  isOpen: boolean;
+}) {
+  return (
+    <div
+      className={`absolute top-full left-0 mt-2 w-52 bg-white border border-sky-100 rounded-2xl shadow-[0_8px_30px_rgba(14,165,233,0.12)] overflow-hidden transition-all duration-200 ${isOpen
+        ? "opacity-100 translate-y-0 pointer-events-auto"
+        : "opacity-0 -translate-y-2 pointer-events-none"
+        }`}
+    >
+      {children.map((child) => (
+        <Link
+          key={child.href}
+          href={child.href}
+          className="block px-4 py-2.5 text-xs font-semibold text-slate-600 hover:text-sky-600 hover:bg-sky-50 transition-colors"
+        >
+          {child.name}
+        </Link>
+      ))}
+    </div>
+  );
+}
 
 export default function Navbar() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
-  const navLinks = [
-    { name: "Home", href: "/", icon: Cpu },
-    { name: "About", href: "/about", icon: ShieldCheck },
-    { name: "Members", href: "/members", icon: Users },
-    { name: "Events", href: "/events", icon: Calendar },
-    { name: "DevDay '26", href: "/events/devday-2026", icon: Sparkles },
-    { name: "Hackathon", href: "/hackathon", icon: Trophy },
-    { name: "Resources", href: "/resources", icon: BookOpen },
-    { name: "Gallery", href: "/gallery", icon: ImageIcon },
-    { name: "Contact", href: "/contact", icon: Mail },
-    { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
-  ];
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+        setOpenDropdown(null);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-sky-200/80 bg-white/80 backdrop-blur-xl transition-all duration-300 shadow-[0_4px_20px_rgba(14,165,233,0.05)]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-3">
+    <header className="sticky top-0 z-50 w-full border-b border-sky-200/80 bg-white/90 backdrop-blur-xl transition-all duration-300 shadow-[0_4px_20px_rgba(14,165,233,0.06)]">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 flex items-center justify-between gap-4 py-3">
+
         {/* Brand / Logo */}
         <Link href="/" className="flex items-center gap-3 group flex-shrink-0">
-          <div className="relative w-12 h-12 flex-shrink-0 drop-shadow-[0_4px_14px_rgba(14,165,233,0.45)] group-hover:drop-shadow-[0_6px_20px_rgba(14,165,233,0.65)] transition-all group-hover:scale-110">
+          <div className="relative h-11 w-auto flex-shrink-0 transition-transform group-hover:scale-[1.02]">
             <Image
-              src="/acm-logo-3d.jpg"
-              alt="ACM Superior Chapter 3D Logo"
-              width={48}
-              height={48}
-              className="w-full h-full object-contain rounded-full"
+              src="/superior-acm-logo.png"
+              alt="Superior ACM Society - Superior University"
+              width={320}
+              height={102}
+              className="h-10 sm:h-11 w-auto object-contain"
               priority
             />
           </div>
-          <div>
-            <div className="flex items-center gap-2">
-              <span className="font-bold text-slate-900 text-base tracking-wide group-hover:text-sky-600 transition-colors whitespace-nowrap">
-                ACM STUDENT CHAPTER
-              </span>
-              <span className="hidden sm:inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-sky-50 text-sky-600 border border-sky-200 flex-shrink-0">
-                ACTIVE
-              </span>
-            </div>
-            <p className="text-[11px] text-slate-500 font-medium whitespace-nowrap">Official University Chapter</p>
-          </div>
         </Link>
 
-        {/* Desktop Navigation Links */}
-        <nav className="hidden xl:flex items-center gap-0.5 2xl:gap-1 flex-shrink-0">
-          {navLinks.map((link) => {
-            const isActive = pathname === link.href;
+        {/* Desktop Navigation */}
+        <nav className="hidden lg:flex items-center gap-0.5" ref={dropdownRef}>
+          {navItems.map((item) => {
+            const isActive = pathname === item.href || (item.href !== "/" && pathname.startsWith(item.href));
+            const hasChildren = item.children && item.children.length > 0;
+            const isDropOpen = openDropdown === item.name;
+
             return (
-              <Link
-                key={link.name}
-                href={link.href}
-                className={`px-2.5 2xl:px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-all ${
-                  isActive
-                    ? "text-sky-700 bg-sky-100/70 border border-sky-300 shadow-[0_0_12px_rgba(14,165,233,0.15)]"
-                    : "text-slate-600 hover:text-sky-600 hover:bg-sky-50/80"
-                }`}
-              >
-                {link.name}
-              </Link>
+              <div key={item.name} className="relative">
+                {hasChildren ? (
+                  <button
+                    onClick={() => setOpenDropdown(isDropOpen ? null : item.name)}
+                    className={`flex items-center gap-1 px-3 py-2 rounded-lg text-xs font-semibold whitespace-nowrap transition-all ${isActive
+                      ? "text-sky-700 bg-sky-100/70 border border-sky-300"
+                      : "text-slate-600 hover:text-sky-600 hover:bg-sky-50/80"
+                      }`}
+                  >
+                    {item.name}
+                    <ChevronDown
+                      className={`w-3 h-3 transition-transform ${isDropOpen ? "rotate-180" : ""}`}
+                    />
+                  </button>
+                ) : (
+                  <Link
+                    href={item.href}
+                    className={`px-3 py-2 rounded-lg text-xs font-semibold whitespace-nowrap transition-all block ${isActive
+                      ? "text-sky-700 bg-sky-100/70 border border-sky-300 shadow-[0_0_12px_rgba(14,165,233,0.15)]"
+                      : "text-slate-600 hover:text-sky-600 hover:bg-sky-50/80"
+                      }`}
+                  >
+                    {item.name}
+                  </Link>
+                )}
+
+                {hasChildren && item.children && (
+                  <DropdownMenu children={item.children} isOpen={isDropOpen} />
+                )}
+              </div>
             );
           })}
         </nav>
 
-        {/* Action Button & Mobile Toggle */}
-        <div className="flex items-center gap-3 flex-shrink-0">
+        {/* Sign In + Sign Up Buttons / Auth Status */}
+        <div className="hidden sm:flex items-center gap-2 flex-shrink-0">
           <Link
-            href="/contact"
-            className="hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold text-white bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-400 hover:to-blue-500 shadow-[0_4px_16px_rgba(14,165,233,0.35)] hover:shadow-[0_6px_20px_rgba(14,165,233,0.5)] transition-all transform hover:-translate-y-0.5 whitespace-nowrap flex-shrink-0"
+            href="/auth/signin"
+            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold text-sky-700 bg-white border border-sky-300 hover:bg-sky-50 hover:border-sky-400 transition-all shadow-sm whitespace-nowrap"
           >
-            <Sparkles className="w-3.5 h-3.5 flex-shrink-0" />
-            <span className="whitespace-nowrap">Join Chapter</span>
+            <LogIn className="w-3.5 h-3.5" />
+            <span>Sign In</span>
           </Link>
-
-          <button
-            onClick={() => setIsOpen(!isOpen)}
-            className="xl:hidden p-2 rounded-xl text-slate-700 hover:text-sky-600 bg-white border border-sky-200 shadow-xs flex-shrink-0"
-            aria-label="Toggle Menu"
+          <Link
+            href="/auth/signup"
+            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold text-white bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-400 hover:to-blue-500 shadow-[0_4px_16px_rgba(14,165,233,0.35)] hover:shadow-[0_6px_20px_rgba(14,165,233,0.5)] transition-all transform hover:-translate-y-0.5 whitespace-nowrap"
           >
-            {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-          </button>
+            <UserPlus className="w-3.5 h-3.5" />
+            <span>Sign Up</span>
+          </Link>
+          <Link
+            href="/dashboard"
+            className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold text-sky-800 bg-sky-50 border border-sky-200 hover:bg-sky-100 transition-all whitespace-nowrap"
+            title="Member Portal"
+          >
+            <span>Portal</span>
+          </Link>
         </div>
+
+        {/* Mobile Toggle */}
+        <button
+          onClick={() => setIsOpen(!isOpen)}
+          className="lg:hidden p-2 rounded-xl text-slate-700 hover:text-sky-600 bg-white border border-sky-200 shadow-sm flex-shrink-0"
+          aria-label="Toggle Menu"
+        >
+          {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+        </button>
       </div>
 
-      {/* Mobile Drawer Menu */}
+      {/* Mobile Drawer */}
       {isOpen && (
-        <div className="xl:hidden border-b border-sky-200/80 bg-white/95 backdrop-blur-2xl px-6 py-5 shadow-lg">
-          <div className="grid grid-cols-2 gap-2">
-            {navLinks.map((link) => {
-              const Icon = link.icon;
-              const isActive = pathname === link.href;
+        <div className="lg:hidden border-t border-sky-200/80 bg-white/98 backdrop-blur-2xl px-4 py-4 shadow-lg">
+          <div className="space-y-1">
+            {navItems.map((item) => {
+              const isActive = pathname === item.href || (item.href !== "/" && pathname.startsWith(item.href));
               return (
-                <Link
-                  key={link.name}
-                  href={link.href}
-                  onClick={() => setIsOpen(false)}
-                  className={`flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-all ${
-                    isActive
+                <div key={item.name}>
+                  <Link
+                    href={item.href}
+                    onClick={() => setIsOpen(false)}
+                    className={`flex items-center px-3 py-2.5 rounded-xl text-sm font-semibold transition-all ${isActive
                       ? "text-sky-700 bg-sky-100/70 border border-sky-300"
                       : "text-slate-600 hover:text-sky-600 hover:bg-sky-50"
-                  }`}
-                >
-                  <Icon className="w-4 h-4 text-sky-500" />
-                  <span>{link.name}</span>
-                </Link>
+                      }`}
+                  >
+                    {item.name}
+                  </Link>
+                  {item.children && (
+                    <div className="ml-4 mt-1 space-y-1">
+                      {item.children.map((child) => (
+                        <Link
+                          key={child.href}
+                          href={child.href}
+                          onClick={() => setIsOpen(false)}
+                          className="flex items-center px-3 py-2 rounded-lg text-xs font-medium text-slate-500 hover:text-sky-600 hover:bg-sky-50 transition-colors"
+                        >
+                          {child.name}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
               );
             })}
           </div>
-          <div className="mt-4 pt-4 border-t border-slate-200 flex justify-center">
+          <div className="mt-4 pt-4 border-t border-slate-200 flex gap-2">
             <Link
-              href="/contact"
+              href="/auth/signin"
               onClick={() => setIsOpen(false)}
-              className="w-full text-center py-2.5 rounded-xl text-xs font-semibold text-white bg-gradient-to-r from-sky-500 to-blue-600 shadow-[0_4px_16px_rgba(14,165,233,0.35)]"
+              className="flex-1 text-center py-2.5 rounded-xl text-xs font-semibold text-sky-700 bg-white border border-sky-300"
             >
-              Join ACM Student Chapter
+              Sign In
+            </Link>
+            <Link
+              href="/auth/signup"
+              onClick={() => setIsOpen(false)}
+              className="flex-1 text-center py-2.5 rounded-xl text-xs font-semibold text-white bg-gradient-to-r from-sky-500 to-blue-600 shadow-[0_4px_16px_rgba(14,165,233,0.35)]"
+            >
+              Sign Up
             </Link>
           </div>
         </div>

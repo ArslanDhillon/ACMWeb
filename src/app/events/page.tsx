@@ -2,224 +2,286 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import TiltCard from "@/components/TiltCard";
-import { 
-  Calendar, 
-  Clock, 
-  MapPin, 
-  Users, 
-  ArrowRight, 
-  Search 
-} from "lucide-react";
+import Image from "next/image";
+import { Calendar, MapPin, Clock, Users, Filter, ArrowRight, ChevronRight } from "lucide-react";
+
+type EventType = "all" | "seminar" | "workshop" | "hackathon" | "social";
+type EventStatus = "all" | "upcoming" | "past";
+
+const events = [
+  {
+    slug: "acm-seminar-learning-to-employment",
+    type: "seminar" as const,
+    status: "past" as const,
+    title: "ACM Seminar: From Learning to Employment",
+    date: "2026",
+    time: "9:00 AM – 5:00 PM",
+    location: "Superior University, Lahore",
+    duration: "Full Day",
+    description:
+      "A landmark seminar organized by ACM Superior Society connecting students with industry professionals. This event bridged the gap between academic learning and real-world employment in the technology sector, featuring talks from experienced professionals, career guidance sessions, and interactive Q&A panels.",
+    highlights: [
+      "Keynote talks by experienced tech professionals",
+      "Career pathway guidance for CS students",
+      "Interactive Q&A panel with industry experts",
+      "Networking opportunities with professionals",
+      "Insights on internships and job hunting in tech",
+    ],
+    image: "/eventsImages/IMG_4159.JPG.jpeg",
+    attendees: "200+",
+  },
+  {
+    slug: "tech-career-pathways-2026",
+    type: "seminar" as const,
+    status: "upcoming" as const,
+    title: "Tech Career Pathways 2026",
+    date: "Coming Soon",
+    time: "TBD",
+    location: "Superior University, Lahore",
+    duration: "Half Day",
+    description:
+      "Explore diverse career paths in software engineering, AI research, and tech entrepreneurship. Connect with alumni and industry mentors who will share their journeys and advice.",
+    highlights: [
+      "Panel discussion with tech professionals",
+      "Career roadmap sessions",
+      "CV and portfolio review workshop",
+      "Networking lunch",
+    ],
+    image: "/eventsImages/IMG_4338.JPG.jpeg",
+    attendees: "TBD",
+  },
+  {
+    slug: "web-dev-bootcamp-2026",
+    type: "workshop" as const,
+    status: "upcoming" as const,
+    title: "Web Development Bootcamp",
+    date: "Coming Soon",
+    time: "TBD",
+    location: "Superior University, Lahore",
+    duration: "2 Days",
+    description:
+      "Hands-on workshop covering modern full-stack development. Learn React, Next.js, Node.js, and database integration through practical projects.",
+    highlights: [
+      "Frontend with React & Next.js",
+      "Backend with Node.js & Express",
+      "Database design & integration",
+      "Deployment to cloud platforms",
+    ],
+    image: "/eventsImages/IMG_4352.JPG.jpeg",
+    attendees: "TBD",
+  },
+  {
+    slug: "codestorm-2026",
+    type: "hackathon" as const,
+    status: "upcoming" as const,
+    title: "CodeStorm 2026",
+    date: "Coming Soon",
+    time: "TBD",
+    location: "Superior University, Lahore",
+    duration: "24 Hours",
+    description:
+      "24-hour hackathon where teams build innovative solutions to real-world problems. Compete for prizes, get mentored by industry professionals, and showcase your engineering talent.",
+    highlights: [
+      "24-hour coding challenge",
+      "Teams of 3-5 members",
+      "Industry mentor support",
+      "Prizes for top 3 teams",
+    ],
+    image: "/eventsImages/IMG_4367.JPG.jpeg",
+    attendees: "TBD",
+  },
+];
+
+const typeLabels: Record<string, string> = {
+  all: "All Types",
+  seminar: "Seminar",
+  workshop: "Workshop",
+  hackathon: "Hackathon",
+  social: "Social",
+};
+
+const statusColors: Record<string, string> = {
+  past: "bg-slate-100 text-slate-600 border-slate-200",
+  upcoming: "bg-emerald-50 text-emerald-700 border-emerald-200",
+};
+
+const typeColors: Record<string, string> = {
+  seminar: "bg-sky-50 text-sky-700 border-sky-200",
+  workshop: "bg-blue-50 text-blue-700 border-blue-200",
+  hackathon: "bg-indigo-50 text-indigo-700 border-indigo-200",
+  social: "bg-cyan-50 text-cyan-700 border-cyan-200",
+};
 
 export default function EventsPage() {
-  const [filterType, setFilterType] = useState("ALL");
-  const [search, setSearch] = useState("");
-
-  const events = [
-    {
-      id: 1,
-      title: "DevDay 2026: Annual Developer Summit",
-      category: "HACKATHON",
-      type: "Flagship Summit",
-      date: "March 28-30, 2026",
-      time: "09:00 AM - 08:00 PM EST",
-      venue: "Grand Campus Arena & Live Discord",
-      seats: "450 / 500 Registered",
-      description: "3 days of non-stop hackathons, keynote tech talks by Google & Microsoft engineers, and PKR 500,000 in grand cash prizes.",
-      speaker: "Keynotes from Google, Devsinc & AWS",
-      status: "OPEN",
-      featured: true,
-      href: "/events/devday-2026",
-    },
-    {
-      id: 2,
-      title: "High-Performance Rust for Cloud Microservices",
-      category: "WORKSHOP",
-      type: "Hands-on Lab",
-      date: "April 12, 2026",
-      time: "03:00 PM - 06:00 PM EST",
-      venue: "CS Innovation Lab (CS-302)",
-      seats: "60 / 60 Full (Waitlist Open)",
-      description: "Learn memory safety, Tokio async runtime, and zero-cost abstractions by building a high-throughput gRPC microservice in Rust.",
-      speaker: "Hamza Shaikh (Director of Tech)",
-      status: "WAITLIST",
-      featured: false,
-      href: "/contact",
-    },
-    {
-      id: 3,
-      title: "ICPC Algorithmic CodeSprint Qualifier #4",
-      category: "CONTEST",
-      type: "Competitive Coding",
-      date: "April 24, 2026",
-      time: "05:00 PM - 09:00 PM EST",
-      venue: "Online Contest Portal (HackerEarth)",
-      seats: "180 Registered",
-      description: "5 algorithmic challenges spanning advanced graph algorithms, segment trees, and dynamic programming. Qualifier for national team.",
-      speaker: "Farhan Ahmed (ICPC Lead Coach)",
-      status: "OPEN",
-      featured: false,
-      href: "/hackathon",
-    },
-    {
-      id: 4,
-      title: "Fine-Tuning Open-Source LLMs with PyTorch",
-      category: "WORKSHOP",
-      type: "AI Symposium",
-      date: "May 08, 2026",
-      time: "02:00 PM - 05:00 PM EST",
-      venue: "Auditorium Hall B",
-      seats: "110 / 150 Registered",
-      description: "Practical tutorial on LoRA, QLoRA, and parameter-efficient fine-tuning of Llama 3 models on consumer hardware.",
-      speaker: "Zainab Tariq (Head of AI)",
-      status: "OPEN",
-      featured: false,
-      href: "/contact",
-    },
-    {
-      id: 5,
-      title: "Industry Guest Talk: Scalable Systems at Microsoft",
-      category: "TALK",
-      type: "Tech Talk",
-      date: "May 18, 2026",
-      time: "04:30 PM - 06:30 PM EST",
-      venue: "Virtual Livestream & Lab 304",
-      seats: "320 Registered",
-      description: "Principal Distributed Systems Engineer discusses hyper-scale caching, multi-region Azure resilience, and career paths for undergrads.",
-      speaker: "Senior Architect (Microsoft Azure)",
-      status: "OPEN",
-      featured: false,
-      href: "/contact",
-    },
-  ];
+  const [statusFilter, setStatusFilter] = useState<EventStatus>("all");
+  const [typeFilter, setTypeFilter] = useState<EventType>("all");
 
   const filtered = events.filter((e) => {
-    const matchesCategory = filterType === "ALL" || e.category === filterType;
-    const matchesSearch = 
-      e.title.toLowerCase().includes(search.toLowerCase()) ||
-      e.description.toLowerCase().includes(search.toLowerCase()) ||
-      e.speaker.toLowerCase().includes(search.toLowerCase());
-    return matchesCategory && matchesSearch;
+    const statusMatch = statusFilter === "all" || e.status === statusFilter;
+    const typeMatch = typeFilter === "all" || e.type === typeFilter;
+    return statusMatch && typeMatch;
   });
 
   return (
-    <div className="space-y-20 pb-24">
-      {/* 1. HERO */}
-      <section className="relative pt-12 lg:pt-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-5">
-        <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-sky-100/80 border border-sky-300 text-sky-800 text-xs font-semibold badge-glow">
-          <Calendar className="w-3.5 h-3.5 text-sky-600" />
-          <span>CHAPTER EVENT CALENDAR • 2026</span>
+    <div className="space-y-12 pb-24">
+      {/* HEADER */}
+      <section className="pt-12 lg:pt-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="space-y-4">
+          <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-sky-100/80 border border-sky-300 text-sky-800 text-xs font-semibold">
+            <Calendar className="w-3.5 h-3.5 text-sky-600" />
+            <span>ACM SUPERIOR EVENTS</span>
+          </div>
+          <h1 className="text-4xl sm:text-5xl font-extrabold text-slate-900 tracking-tight">
+            Events &amp;{" "}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-600 to-blue-700">
+              Workshops
+            </span>
+          </h1>
+          <p className="text-slate-600 max-w-2xl leading-relaxed">
+            Seminars, workshops, hackathons, and more — all designed to connect you with industry
+            professionals and help you grow as a computing professional.
+          </p>
         </div>
-
-        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.15]">
-          Upcoming Hackathons &amp;{" "}
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-600 via-cyan-600 to-blue-700">
-            Tech Workshops
-          </span>
-        </h1>
-
-        <p className="text-base text-slate-600 max-w-2xl mx-auto leading-relaxed">
-          From intensive 36-hour hackathons to hands-on systems programming bootcamps and ICPC contest qualifiers. Explore our upcoming chapter schedule.
-        </p>
       </section>
 
-      {/* 2. SEARCH & FILTER BAR */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-4 glass-panel p-4 rounded-2xl border border-sky-200/80 shadow-sm">
-          <div className="flex flex-wrap items-center gap-1.5 w-full md:w-auto">
-            {[
-              { id: "ALL", label: "All Categories" },
-              { id: "HACKATHON", label: "Hackathons" },
-              { id: "WORKSHOP", label: "Labs & Workshops" },
-              { id: "CONTEST", label: "ICPC Contests" },
-              { id: "TALK", label: "Tech Talks" },
-            ].map((tab) => (
+      {/* FILTERS */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex flex-wrap items-center gap-4">
+          <div className="flex items-center gap-2 text-xs font-semibold text-slate-600">
+            <Filter className="w-4 h-4 text-sky-500" />
+            <span>Filter:</span>
+          </div>
+
+          {/* Status Filter */}
+          <div className="flex items-center gap-2">
+            {(["all", "upcoming", "past"] as EventStatus[]).map((s) => (
               <button
-                key={tab.id}
-                onClick={() => setFilterType(tab.id)}
-                className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-all ${
-                  filterType === tab.id
-                    ? "bg-sky-600 text-white shadow-[0_4px_14px_rgba(14,165,233,0.35)]"
-                    : "text-slate-600 hover:text-sky-700 hover:bg-sky-50 bg-white border border-sky-100"
+                key={s}
+                onClick={() => setStatusFilter(s)}
+                className={`px-3 py-1.5 rounded-xl text-xs font-semibold border transition-all capitalize ${
+                  statusFilter === s
+                    ? "bg-sky-600 text-white border-sky-600 shadow-sm"
+                    : "bg-white text-slate-600 border-slate-200 hover:border-sky-300 hover:text-sky-600"
                 }`}
               >
-                {tab.label}
+                {s === "all" ? "All Status" : s.charAt(0).toUpperCase() + s.slice(1)}
               </button>
             ))}
           </div>
 
-          <div className="relative w-full md:w-72">
-            <Search className="w-4 h-4 text-sky-500 absolute left-3 top-1/2 -translate-y-1/2" />
-            <input
-              type="text"
-              placeholder="Search event name, topic, speaker..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="w-full pl-9 pr-4 py-1.5 rounded-xl bg-white border border-sky-300 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 shadow-xs"
-            />
+          <div className="w-px h-5 bg-slate-200 hidden sm:block" />
+
+          {/* Type Filter */}
+          <div className="flex items-center gap-2 flex-wrap">
+            {(["all", "seminar", "workshop", "hackathon"] as EventType[]).map((t) => (
+              <button
+                key={t}
+                onClick={() => setTypeFilter(t)}
+                className={`px-3 py-1.5 rounded-xl text-xs font-semibold border transition-all ${
+                  typeFilter === t
+                    ? "bg-sky-600 text-white border-sky-600 shadow-sm"
+                    : "bg-white text-slate-600 border-slate-200 hover:border-sky-300 hover:text-sky-600"
+                }`}
+              >
+                {typeLabels[t]}
+              </button>
+            ))}
           </div>
         </div>
+      </section>
 
-        {/* 3. EVENT CARDS GRID */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {filtered.map((event) => (
-            <TiltCard key={event.id} className="glass-card p-7 border border-sky-200/80 flex flex-col justify-between h-full group">
-              <div className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <span className="px-3 py-1 rounded-full text-[10px] font-bold text-sky-800 bg-sky-100 border border-sky-300">
-                    {event.type}
-                  </span>
-                  <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-semibold ${
-                    event.status === "OPEN" 
-                      ? "bg-emerald-50 text-emerald-700 border border-emerald-300" 
-                      : "bg-amber-50 text-amber-700 border border-amber-300"
-                  }`}>
-                    {event.status === "OPEN" ? "● RSVP OPEN" : "● WAITLIST"}
-                  </span>
-                </div>
-
-                <h3 className="text-xl font-bold text-slate-900 group-hover:text-sky-600 transition-colors">
-                  {event.title}
-                </h3>
-
-                <p className="text-xs text-slate-600 leading-relaxed">
-                  {event.description}
-                </p>
-
-                <div className="space-y-2 pt-2 text-xs text-slate-500">
-                  <div className="flex items-center gap-2">
-                    <Calendar className="w-3.5 h-3.5 text-sky-600" />
-                    <span>{event.date}</span>
-                    <span className="text-slate-300">•</span>
-                    <Clock className="w-3.5 h-3.5 text-sky-600" />
-                    <span>{event.time}</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <MapPin className="w-3.5 h-3.5 text-sky-600" />
-                    <span>{event.venue}</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Users className="w-3.5 h-3.5 text-sky-600" />
-                    <span>{event.seats}</span>
+      {/* EVENTS GRID */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {filtered.length === 0 ? (
+          <div className="text-center py-20 text-slate-500">
+            <Calendar className="w-12 h-12 mx-auto mb-4 text-sky-200" />
+            <p className="font-semibold">No events match your filters.</p>
+            <button
+              onClick={() => { setStatusFilter("all"); setTypeFilter("all"); }}
+              className="mt-3 text-xs text-sky-600 hover:underline"
+            >
+              Clear all filters
+            </button>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {filtered.map((ev) => (
+              <div
+                key={ev.slug}
+                className="glass-panel rounded-3xl border border-sky-100 hover:border-sky-300 hover:shadow-[0_8px_30px_rgba(14,165,233,0.12)] transition-all overflow-hidden group"
+              >
+                {/* Event Image */}
+                <div className="relative h-48 overflow-hidden bg-sky-50">
+                  <Image
+                    src={ev.image}
+                    alt={ev.title}
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-500"
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+                  <div className="absolute top-4 left-4 flex gap-2">
+                    <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold border ${typeColors[ev.type] || "bg-sky-50 text-sky-700 border-sky-200"}`}>
+                      {ev.type.toUpperCase()}
+                    </span>
+                    <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold border ${statusColors[ev.status]}`}>
+                      {ev.status.toUpperCase()}
+                    </span>
                   </div>
                 </div>
-              </div>
 
-              <div className="mt-6 pt-5 border-t border-slate-200 flex items-center justify-between">
-                <span className="text-[11px] text-slate-500 font-medium truncate max-w-[200px]">
-                  {event.speaker}
-                </span>
-                <Link
-                  href={event.href}
-                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-semibold text-white bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-400 hover:to-blue-500 shadow-[0_4px_14px_rgba(14,165,233,0.3)] transition-all"
-                >
-                  <span>Register Now</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </Link>
+                {/* Event Info */}
+                <div className="p-6 space-y-4">
+                  <h2 className="text-lg font-extrabold text-slate-900 leading-tight">{ev.title}</h2>
+                  <p className="text-xs text-slate-600 leading-relaxed line-clamp-2">{ev.description}</p>
+
+                  <div className="grid grid-cols-2 gap-3 text-xs text-slate-500">
+                    <div className="flex items-center gap-1.5">
+                      <Calendar className="w-3.5 h-3.5 text-sky-500 flex-shrink-0" />
+                      <span>{ev.date}</span>
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                      <Clock className="w-3.5 h-3.5 text-sky-500 flex-shrink-0" />
+                      <span>{ev.duration}</span>
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                      <MapPin className="w-3.5 h-3.5 text-sky-500 flex-shrink-0" />
+                      <span className="truncate">{ev.location}</span>
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                      <Users className="w-3.5 h-3.5 text-sky-500 flex-shrink-0" />
+                      <span>{ev.attendees} attendees</span>
+                    </div>
+                  </div>
+
+                  <Link
+                    href={`/events/${ev.slug}`}
+                    className="inline-flex items-center gap-2 text-xs font-bold text-sky-600 hover:text-sky-700 transition-colors group/link"
+                  >
+                    <span>View Details</span>
+                    <ArrowRight className="w-3.5 h-3.5 group-hover/link:translate-x-0.5 transition-transform" />
+                  </Link>
+                </div>
               </div>
-            </TiltCard>
-          ))}
+            ))}
+          </div>
+        )}
+      </section>
+
+      {/* CTA */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="glass-panel rounded-3xl border border-sky-200 p-8 sm:p-12 text-center space-y-4">
+          <h2 className="text-2xl font-extrabold text-slate-900">Want to Suggest an Event?</h2>
+          <p className="text-sm text-slate-600 max-w-lg mx-auto">
+            Have an idea for a workshop, seminar, or hackathon? We&apos;d love to hear from you.
+          </p>
+          <Link
+            href="/contact"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold text-white bg-gradient-to-r from-sky-500 to-blue-600 shadow-[0_4px_16px_rgba(14,165,233,0.35)] hover:from-sky-400 hover:to-blue-500 transition-all"
+          >
+            <span>Contact Us</span>
+            <ChevronRight className="w-4 h-4" />
+          </Link>
         </div>
       </section>
     </div>

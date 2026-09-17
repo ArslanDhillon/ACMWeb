@@ -2,35 +2,35 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import ThreeCanvas from "@/components/ThreeCanvas";
 import TiltCard from "@/components/TiltCard";
-import { 
-  Sparkles, 
-  ArrowRight, 
-  Users, 
-  Calendar, 
-  Trophy, 
-  Cpu, 
-  Code, 
-  ShieldCheck, 
-  Terminal, 
+import {
+  Sparkles,
+  ArrowRight,
+  Users,
+  Calendar,
+  Trophy,
+  Cpu,
+  Code,
+  ShieldCheck,
+  Terminal,
   ChevronRight,
-  Flame
+  Flame,
+  Mail,
+  Quote,
 } from "lucide-react";
 
 export default function HomePage() {
-  const [timeLeft, setTimeLeft] = useState({
-    days: 18,
-    hours: 7,
-    minutes: 42,
-    seconds: 19,
-  });
+  const [timeLeft, setTimeLeft] = useState({ days: 18, hours: 7, minutes: 42, seconds: 19 });
+  const [email, setEmail] = useState("");
+  const [subscribed, setSubscribed] = useState(false);
 
   useEffect(() => {
     const timer = setInterval(() => {
       setTimeLeft((prev) => {
         if (prev.seconds > 0) return { ...prev, seconds: prev.seconds - 1 };
-        if (prev.minutes > 0) return { ...prev, minutes: 59, seconds: 59 };
+        if (prev.minutes > 0) return { ...prev, minutes: prev.minutes - 1, seconds: 59 };
         if (prev.hours > 0) return { ...prev, hours: prev.hours - 1, minutes: 59, seconds: 59 };
         if (prev.days > 0) return { ...prev, days: prev.days - 1, hours: 23, minutes: 59, seconds: 59 };
         return prev;
@@ -41,71 +41,67 @@ export default function HomePage() {
 
   const stats = [
     { label: "Active Chapter Members", value: "500+", icon: Users, hint: "Undergrads & Postgrads" },
-    { label: "Conducted Tech Events", value: "45+", icon: Calendar, hint: "Workshops & Summits" },
-    { label: "ICPC & Hackathon Wins", value: "12", icon: Trophy, hint: "National Trophies" },
+    { label: "Conducted Tech Events", value: "45+", icon: Calendar, hint: "Workshops & Seminars" },
+    { label: "Years Active", value: "5+", icon: Trophy, hint: "Since Charter 2021" },
     { label: "Student-Led Community", value: "100%", icon: Terminal, hint: "Peer-to-Peer Growth" },
   ];
 
   const tracks = [
     {
       title: "Artificial Intelligence & ML",
-      desc: "Deep learning, LLMs, computer vision, and neural network research with PyTorch.",
+      desc: "Deep learning, LLMs, computer vision, and neural network research.",
       badge: "SIGAI",
-      color: "from-sky-500/15 to-blue-500/5",
       icon: Cpu,
     },
     {
       title: "Competitive Programming",
-      desc: "ICPC training, advanced algorithms, graph theory, and dynamic programming contests.",
+      desc: "ICPC training, advanced algorithms, graph theory, and dynamic programming.",
       badge: "ICPC TRACK",
-      color: "from-cyan-500/15 to-sky-500/5",
       icon: Code,
     },
     {
       title: "Full-Stack & Cloud Systems",
-      desc: "Modern web architecture, Three.js, distributed microservices, Docker, and Kubernetes.",
+      desc: "Modern web architecture, distributed microservices, Docker, and Kubernetes.",
       badge: "DEV TRACK",
-      color: "from-blue-500/15 to-sky-500/5",
       icon: Terminal,
     },
     {
       title: "Cyber Security & Systems",
       desc: "Penetration testing, cryptographic network analysis, and Linux kernel fundamentals.",
       badge: "SIGSAC",
-      color: "from-sky-500/15 to-indigo-500/5",
       icon: ShieldCheck,
     },
   ];
 
-  const councilLeads = [
+  const testimonials = [
     {
-      name: "Muhammad Salman",
-      role: "Chairperson / President",
-      domain: "Distributed Cloud Systems",
-      initials: "MS",
-      avatarBg: "from-sky-500 to-blue-600",
+      quote: "Joining ACM Superior was the best decision of my university life. The seminars directly connected me with industry professionals.",
+      name: "Student Member",
+      role: "Computer Science, Superior University",
+      initials: "SM",
     },
     {
-      name: "Syeda Dua Fatima",
-      role: "Vice Chairperson",
-      domain: "AI & Neural Architectures",
-      initials: "DF",
-      avatarBg: "from-cyan-500 to-blue-600",
+      quote: "The ACM Seminar on 'From Learning to Employment' gave me practical insights that no classroom could have provided.",
+      name: "Chapter Member",
+      role: "Software Engineering, Superior University",
+      initials: "CM",
     },
     {
-      name: "Hamza Shaikh",
-      role: "Director of Technology",
-      domain: "Full-Stack & 3D WebGL",
-      initials: "HS",
-      avatarBg: "from-blue-500 to-sky-600",
+      quote: "Being part of the ACM Superior community has opened doors to internships and networking opportunities I never expected.",
+      name: "Active Member",
+      role: "IT, Superior University",
+      initials: "AM",
     },
-    {
-      name: "Zainab Tariq",
-      role: "Head of AI Research",
-      domain: "LLMs & Computer Vision",
-      initials: "ZT",
-      avatarBg: "from-sky-400 to-blue-600",
-    },
+  ];
+
+  // Gallery preview — use real event images
+  const galleryPreviews = [
+    "/eventsImages/IMG_4159.JPG.jpeg",
+    "/eventsImages/IMG_4338.JPG.jpeg",
+    "/eventsImages/IMG_4352.JPG.jpeg",
+    "/eventsImages/IMG_4367.JPG.jpeg",
+    "/eventsImages/IMG_4382.JPG.jpeg",
+    "/eventsImages/IMG_4383.JPG.jpeg",
   ];
 
   return (
@@ -116,13 +112,17 @@ export default function HomePage() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             {/* Left Hero Content */}
             <div className="lg:col-span-7 space-y-7 text-left">
-              {/* Badge */}
-              <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-sky-100/80 border border-sky-300 text-sky-800 text-xs font-semibold badge-glow">
-                <span className="w-2 h-2 rounded-full bg-sky-500 animate-ping inline-block" />
-                <span>OFFICIAL UNIVERSITY ACM CHAPTER • 2026 TENURE</span>
+              <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-white border border-sky-300 text-sky-900 text-xs font-semibold badge-glow shadow-xs">
+                <Image
+                  src="/superior-acm-icon.png"
+                  alt="Superior ACM Emblem"
+                  width={20}
+                  height={20}
+                  className="w-5 h-5 object-contain"
+                />
+                <span>SUPERIOR ACM SOCIETY • SUPERIOR UNIVERSITY LAHORE</span>
               </div>
 
-              {/* Headline */}
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.15]">
                 Advancing Computing as a{" "}
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-600 via-cyan-600 to-blue-700">
@@ -130,19 +130,18 @@ export default function HomePage() {
                 </span>
               </h1>
 
-              {/* Subtitle */}
               <p className="text-base sm:text-lg text-slate-600 max-w-xl leading-relaxed">
-                Empowering the next generation of engineers, researchers, and competitive coders through hands-on hackathons, research publications, and global industry mentorship.
+                Empowering the next generation of engineers, researchers, and developers through
+                hands-on seminars, workshops, hackathons, and global industry mentorship at Superior University, Lahore.
               </p>
 
-              {/* CTAs */}
               <div className="flex flex-wrap items-center gap-4 pt-2">
                 <Link
-                  href="/events/devday-2026"
+                  href="/events"
                   className="inline-flex items-center gap-2.5 px-6 py-3.5 rounded-xl text-sm font-semibold text-white bg-gradient-to-r from-sky-500 via-sky-600 to-blue-600 hover:from-sky-400 hover:to-blue-500 shadow-[0_6px_20px_rgba(14,165,233,0.35)] hover:shadow-[0_8px_25px_rgba(14,165,233,0.5)] transition-all transform hover:-translate-y-0.5"
                 >
                   <Sparkles className="w-4 h-4" />
-                  <span>Explore DevDay 2026</span>
+                  <span>Explore Our Events</span>
                   <ArrowRight className="w-4 h-4" />
                 </Link>
 
@@ -151,11 +150,10 @@ export default function HomePage() {
                   className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl text-sm font-semibold text-sky-700 bg-white border border-sky-300 hover:bg-sky-50 shadow-sm transition-all transform hover:-translate-y-0.5"
                 >
                   <Users className="w-4 h-4 text-sky-600" />
-                  <span>Meet The Council</span>
+                  <span>Meet The Team</span>
                 </Link>
               </div>
 
-              {/* Mini Features Checklist */}
               <div className="pt-4 flex flex-wrap items-center gap-6 text-xs text-slate-500 border-t border-slate-200">
                 <div className="flex items-center gap-2">
                   <div className="w-2 h-2 rounded-full bg-sky-500" />
@@ -163,38 +161,34 @@ export default function HomePage() {
                 </div>
                 <div className="flex items-center gap-2">
                   <div className="w-2 h-2 rounded-full bg-sky-500" />
-                  <span>ICPC Official Coaching</span>
+                  <span>Industry Seminars & Workshops</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <div className="w-2 h-2 rounded-full bg-sky-500" />
-                  <span>Verified Credentials</span>
+                  <span>Professional Networking</span>
                 </div>
               </div>
             </div>
 
-            {/* Right Hero 3D Interactive Canvas */}
+            {/* Right 3D Canvas */}
             <div className="lg:col-span-5 relative flex items-center justify-center">
               <div className="relative w-full max-w-md glass-panel rounded-3xl p-6 border border-sky-200 shadow-[0_20px_50px_rgba(14,165,233,0.12)]">
-                {/* 3D Canvas Header Tag */}
                 <div className="flex items-center justify-between pb-3 border-b border-sky-100 mb-2">
                   <div className="flex items-center gap-2">
                     <span className="w-2.5 h-2.5 rounded-full bg-red-400 inline-block" />
                     <span className="w-2.5 h-2.5 rounded-full bg-amber-400 inline-block" />
                     <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 inline-block" />
                   </div>
-                  <span className="text-[11px] font-mono text-sky-700 font-semibold">acm-3d-crystal.obj [WebGL]</span>
+                  {/* <span className="text-[11px] font-mono text-sky-700 font-semibold">acm-3d-crystal.obj [WebGL]</span> */}
                 </div>
-
-                {/* Live Three.js Interactive Emblem */}
                 <ThreeCanvas />
-
-                <div className="pt-3 border-t border-sky-100 flex items-center justify-between text-[11px] text-slate-500">
+                {/* <div className="pt-3 border-t border-sky-100 flex items-center justify-between text-[11px] text-slate-500">
                   <span className="flex items-center gap-1.5 text-sky-600 font-medium">
                     <span className="w-2 h-2 rounded-full bg-sky-500 animate-pulse" />
                     Interactive 3D • Move Mouse
                   </span>
                   <span className="font-mono">FPS: 60 • Three.js</span>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
@@ -212,12 +206,10 @@ export default function HomePage() {
                   <div className="w-10 h-10 rounded-xl bg-sky-100/80 border border-sky-300 flex items-center justify-center text-sky-600 shadow-sm">
                     <Icon className="w-5 h-5" />
                   </div>
-                  <span className="text-[10px] font-mono text-slate-500 uppercase tracking-wider font-semibold">Metric 0{idx + 1}</span>
+                  {/* <span className="text-[10px] font-mono text-slate-500 uppercase tracking-wider font-semibold">Metric 0{idx + 1}</span> */}
                 </div>
                 <div className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight mb-1">
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-600 to-blue-700">
-                    {item.value}
-                  </span>
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-600 to-blue-700">{item.value}</span>
                 </div>
                 <div className="text-xs font-bold text-slate-800">{item.label}</div>
                 <div className="text-[11px] text-slate-500 mt-1">{item.hint}</div>
@@ -227,48 +219,49 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 3. FLAGSHIP BANNER: DEVDAY 2026 SUMMIT */}
+      {/* 3. FLAGSHIP BANNER: ACM SEMINAR */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="relative rounded-3xl overflow-hidden glass-panel border border-sky-200 p-8 lg:p-12 shadow-[0_20px_50px_rgba(14,165,233,0.12)]">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
             <div className="lg:col-span-7 space-y-4">
               <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-amber-50 border border-amber-300 text-amber-800 text-xs font-semibold">
                 <Flame className="w-3.5 h-3.5 text-amber-500" />
-                <span>FLAGSHIP ANNUAL DEVELOPER FESTIVAL</span>
+                <span>FLAGSHIP EVENT — PAST EVENT</span>
               </div>
               <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-                DevDay 2026: <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-600 to-blue-700">The Future of AI &amp; Systems</span>
+                ACM Seminar:{" "}
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-600 to-blue-700">
+                  From Learning to Employment
+                </span>
               </h2>
               <p className="text-sm text-slate-600 leading-relaxed max-w-lg">
-                3 full days of hackathons, technical paper presentations, keynote talks by industry leaders from Google, Devsinc, and Microsoft, and PKR 500,000 in awards.
+                A landmark event connecting students with industry professionals — bridging the gap between
+                academic learning and real-world employment in the technology sector.
               </p>
               <div className="pt-2 flex items-center gap-4">
                 <Link
-                  href="/events/devday-2026"
+                  href="/events/acm-seminar-learning-to-employment"
                   className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-semibold text-white bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-400 hover:to-blue-500 shadow-[0_4px_16px_rgba(14,165,233,0.35)] transition-all"
                 >
-                  <span>Register For DevDay 2026</span>
+                  <span>View Event Details</span>
                   <ChevronRight className="w-4 h-4" />
                 </Link>
-                <span className="text-xs text-slate-500 font-medium">March 28-30, 2026 • Campus Auditorium</span>
+                <span className="text-xs text-slate-500 font-medium">Superior University, Lahore</span>
               </div>
             </div>
 
-            {/* Countdown Display */}
-            <div className="lg:col-span-5 flex flex-col items-center lg:items-end">
-              <span className="text-xs font-bold text-sky-700 uppercase tracking-widest mb-3">CONFERENCE STARTS IN</span>
-              <div className="grid grid-cols-4 gap-3">
+            {/* Countdown placeholder replaced with event highlight */}
+            <div className="lg:col-span-5 flex flex-col items-center lg:items-end gap-3">
+              <div className="grid grid-cols-2 gap-3 w-full max-w-xs">
                 {[
-                  { label: "DAYS", value: timeLeft.days },
-                  { label: "HOURS", value: timeLeft.hours },
-                  { label: "MINS", value: timeLeft.minutes },
-                  { label: "SECS", value: timeLeft.seconds },
-                ].map((cd, i) => (
-                  <div key={i} className="flex flex-col items-center p-3 rounded-2xl bg-white border border-sky-200 shadow-sm min-w-[70px]">
-                    <span className="text-2xl font-extrabold text-sky-600 font-mono">
-                      {String(cd.value).padStart(2, "0")}
-                    </span>
-                    <span className="text-[9px] text-slate-500 font-bold tracking-wider">{cd.label}</span>
+                  { label: "Attendees", value: "200+" },
+                  { label: "Speakers", value: "5+" },
+                  { label: "Duration", value: "Full Day" },
+                  { label: "Year", value: "2026" },
+                ].map((s, i) => (
+                  <div key={i} className="flex flex-col items-center p-3 rounded-2xl bg-white border border-sky-200 shadow-sm">
+                    <span className="text-xl font-extrabold text-sky-600 font-mono">{s.value}</span>
+                    <span className="text-[10px] text-slate-500 font-bold tracking-wider">{s.label}</span>
                   </div>
                 ))}
               </div>
@@ -277,7 +270,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 4. TECHNICAL TRACKS & SPECIAL INTEREST GROUPS */}
+      {/* 4. TECHNICAL TRACKS */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         <div className="text-center max-w-2xl mx-auto space-y-3">
           <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-sky-100/80 border border-sky-300 text-sky-800 text-xs font-semibold">
@@ -287,7 +280,7 @@ export default function HomePage() {
             Special Interest Groups (SIGs)
           </h2>
           <p className="text-xs sm:text-sm text-slate-600">
-            Dedicated university research and development teams focused on high-impact computer science fields.
+            Dedicated research and development tracks focused on high-impact computer science fields.
           </p>
         </div>
 
@@ -313,7 +306,7 @@ export default function HomePage() {
                     href="/resources"
                     className="inline-flex items-center gap-1.5 text-xs font-semibold text-sky-600 hover:text-sky-700 transition-colors"
                   >
-                    <span>View Roadmap &amp; Projects</span>
+                    <span>View Resources</span>
                     <ArrowRight className="w-3.5 h-3.5" />
                   </Link>
                 </div>
@@ -323,77 +316,169 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 5. EXECUTIVE COUNCIL PREVIEW */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
-          <div className="space-y-2">
-            <span className="text-xs font-bold text-sky-700 tracking-wider uppercase">CHAPTER LEADERSHIP</span>
-            <h2 className="text-3xl font-extrabold text-slate-900 tracking-tight">Executive Council Spotlight</h2>
-            <p className="text-xs sm:text-sm text-slate-600">
-              Meet the student leaders driving innovation and research for the 2025-2026 tenure.
-            </p>
+      {/* 5. GALLERY PREVIEW STRIP */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+        <div className="flex items-end justify-between">
+          <div className="space-y-1">
+            <span className="text-xs font-bold text-sky-700 tracking-wider uppercase">Event Gallery</span>
+            <h2 className="text-3xl font-extrabold text-slate-900">Chapter Highlights</h2>
+            <p className="text-sm text-slate-600">Moments from the ACM Seminar: From Learning to Employment</p>
           </div>
           <Link
-            href="/members"
+            href="/gallery"
             className="inline-flex items-center gap-2 text-xs font-bold text-sky-600 hover:text-sky-700 transition-colors"
           >
-            <span>View Full Directory (8 Leads + Faculty)</span>
+            <span>View Full Gallery</span>
             <ArrowRight className="w-3.5 h-3.5" />
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {councilLeads.map((m, i) => (
-            <TiltCard key={i} className="glass-card p-6 border border-sky-200/80 text-center">
-              <div className="relative mx-auto w-20 h-20 rounded-2xl p-[2px] bg-gradient-to-tr from-sky-400 to-blue-600 mb-4 shadow-[0_6px_20px_rgba(14,165,233,0.25)]">
-                <div className="w-full h-full rounded-[14px] bg-sky-50 flex items-center justify-center font-extrabold text-xl text-sky-700">
-                  {m.initials}
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+          {galleryPreviews.map((src, i) => (
+            <Link key={i} href="/gallery" className="group relative aspect-square rounded-2xl overflow-hidden bg-sky-50 border border-sky-100 hover:border-sky-300 transition-all hover:shadow-[0_6px_24px_rgba(14,165,233,0.2)]">
+              <Image
+                src={src}
+                alt={`Event photo ${i + 1}`}
+                fill
+                className="object-cover group-hover:scale-105 transition-transform duration-500"
+                sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 16vw"
+              />
+              <div className="absolute inset-0 bg-sky-900/0 group-hover:bg-sky-900/20 transition-colors" />
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      {/* 6. TESTIMONIALS */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+        <div className="text-center space-y-2">
+          <span className="text-xs font-bold text-sky-700 uppercase tracking-widest">Student Voices</span>
+          <h2 className="text-3xl font-extrabold text-slate-900">What Our Members Say</h2>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {testimonials.map((t, i) => (
+            <TiltCard key={i} className="glass-card p-6 border border-sky-200/80 flex flex-col gap-4">
+              <Quote className="w-6 h-6 text-sky-300" />
+              <p className="text-sm text-slate-600 leading-relaxed flex-1">&ldquo;{t.quote}&rdquo;</p>
+              <div className="flex items-center gap-3 pt-2 border-t border-slate-100">
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-sky-400 to-blue-600 flex items-center justify-center text-white font-bold text-xs flex-shrink-0">
+                  {t.initials}
                 </div>
-                <div className="absolute -bottom-2 -right-1 px-2 py-0.5 rounded-full text-[9px] font-bold bg-sky-600 text-white shadow-xs">
-                  #{i + 1}
+                <div>
+                  <div className="text-xs font-bold text-slate-900">{t.name}</div>
+                  <div className="text-[11px] text-slate-500">{t.role}</div>
                 </div>
-              </div>
-              <h4 className="text-sm font-bold text-slate-900 tracking-wide">{m.name}</h4>
-              <p className="text-xs text-sky-600 font-semibold mt-0.5">{m.role}</p>
-              <p className="text-[11px] text-slate-500 mt-2">{m.domain}</p>
-              <div className="mt-4 pt-3 border-t border-slate-200 flex justify-center">
-                <Link
-                  href="/members"
-                  className="text-[11px] text-slate-600 hover:text-sky-600 font-semibold transition-colors"
-                >
-                  View Profile &amp; Connect →
-                </Link>
               </div>
             </TiltCard>
           ))}
         </div>
       </section>
 
-      {/* 6. CALL TO ACTION: JOIN CHAPTER */}
+      {/* 7. UPCOMING EVENTS PREVIEW */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+        <div className="flex items-end justify-between">
+          <div>
+            <span className="text-xs font-bold text-sky-700 uppercase tracking-widest">What&apos;s Coming</span>
+            <h2 className="text-3xl font-extrabold text-slate-900 mt-1">Upcoming Events</h2>
+          </div>
+          <Link href="/events" className="inline-flex items-center gap-2 text-xs font-bold text-sky-600 hover:text-sky-700 transition-colors">
+            <span>All Events</span>
+            <ArrowRight className="w-3.5 h-3.5" />
+          </Link>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {[
+            {
+              type: "SEMINAR",
+              title: "Tech Career Pathways 2026",
+              desc: "Explore diverse career paths in software engineering, AI research, and tech entrepreneurship.",
+              status: "Coming Soon",
+              statusColor: "bg-amber-50 text-amber-700 border-amber-200",
+            },
+            {
+              type: "WORKSHOP",
+              title: "Web Development Bootcamp",
+              desc: "Hands-on workshop covering modern full-stack development with React, Next.js, and Node.js.",
+              status: "Coming Soon",
+              statusColor: "bg-amber-50 text-amber-700 border-amber-200",
+            },
+            {
+              type: "HACKATHON",
+              title: "CodeStorm 2026",
+              desc: "24-hour hackathon where teams build innovative solutions to real-world problems.",
+              status: "Coming Soon",
+              statusColor: "bg-amber-50 text-amber-700 border-amber-200",
+            },
+          ].map((ev, i) => (
+            <TiltCard key={i} className="glass-card p-6 border border-sky-200/80 flex flex-col gap-4">
+              <div className="flex items-center justify-between">
+                <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold text-sky-700 bg-sky-50 border border-sky-200">
+                  {ev.type}
+                </span>
+                <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold border ${ev.statusColor}`}>
+                  {ev.status}
+                </span>
+              </div>
+              <h3 className="text-base font-bold text-slate-900">{ev.title}</h3>
+              <p className="text-xs text-slate-600 leading-relaxed flex-1">{ev.desc}</p>
+              <Link
+                href="/events"
+                className="inline-flex items-center gap-1.5 text-xs font-semibold text-sky-600 hover:text-sky-700 transition-colors"
+              >
+                <span>Learn More</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
+            </TiltCard>
+          ))}
+        </div>
+      </section>
+
+      {/* 8. NEWSLETTER SIGNUP */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="relative rounded-3xl glass-panel border border-sky-200 p-10 sm:p-14 text-center space-y-6 overflow-hidden shadow-[0_20px_50px_rgba(14,165,233,0.12)]">
           <div className="relative z-10 max-w-2xl mx-auto space-y-4">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-sky-100/80 border border-sky-300 text-sky-800 text-xs font-semibold">
+              <Mail className="w-3.5 h-3.5" />
+              <span>NEWSLETTER</span>
+            </div>
             <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-              Ready to Build the Future of Computing?
+              Stay in the Loop
             </h2>
             <p className="text-sm text-slate-600 leading-relaxed">
-              Join 500+ university students in hackathons, competitive programming, and research publications. Membership is 100% free for enrolled students.
+              Get notified about upcoming events, workshops, and chapter news. No spam — only the good stuff.
             </p>
-            <div className="pt-4 flex flex-wrap items-center justify-center gap-4">
-              <Link
-                href="/contact"
-                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl text-sm font-semibold text-white bg-gradient-to-r from-sky-500 via-sky-600 to-blue-600 shadow-[0_6px_20px_rgba(14,165,233,0.35)] hover:shadow-[0_8px_25px_rgba(14,165,233,0.5)] transition-all transform hover:-translate-y-0.5"
+
+            {subscribed ? (
+              <div className="flex items-center justify-center gap-2 text-emerald-600 font-semibold text-sm py-4">
+                <span className="w-5 h-5 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-600 text-xs">✓</span>
+                You&apos;re subscribed! We&apos;ll be in touch soon.
+              </div>
+            ) : (
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  if (email) setSubscribed(true);
+                }}
+                className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto pt-2"
               >
-                <Sparkles className="w-4 h-4" />
-                <span>Submit Membership Application</span>
-              </Link>
-              <Link
-                href="/resources"
-                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl text-sm font-semibold text-slate-700 bg-white border border-sky-300 hover:bg-sky-50 transition-all shadow-sm"
-              >
-                <span>Browse Student Resources</span>
-              </Link>
-            </div>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Enter your university email"
+                  required
+                  className="flex-1 px-4 py-3 rounded-xl text-sm border border-sky-200 bg-white text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-transparent shadow-sm"
+                />
+                <button
+                  type="submit"
+                  className="px-6 py-3 rounded-xl text-sm font-semibold text-white bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-400 hover:to-blue-500 shadow-[0_4px_16px_rgba(14,165,233,0.35)] transition-all whitespace-nowrap"
+                >
+                  Subscribe
+                </button>
+              </form>
+            )}
           </div>
         </div>
       </section>

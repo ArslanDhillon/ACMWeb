@@ -6,11 +6,12 @@ import {
   Mail, 
   MapPin, 
   Clock, 
-  MessageSquare, 
   Send, 
   CheckCircle2, 
-  ChevronDown 
+  ChevronDown,
+  Globe
 } from "lucide-react";
+import { GithubIcon, LinkedinIcon, FacebookIcon, InstagramIcon } from "@/components/Icons";
 
 export default function ContactPage() {
   const [submitted, setSubmitted] = useState(false);
@@ -25,20 +26,20 @@ export default function ContactPage() {
 
   const faqs = [
     {
-      q: "Who can join the ACM Student Chapter, and is there an admission fee?",
-      a: "Membership is 100% free for all enrolled university students (undergraduate and postgraduate). The chapter is fully sponsored by university grants, industry corporate partners, and ACM International.",
+      q: "Who can join the Superior ACM Society?",
+      a: "Membership and event participation are open to all students across Computer Science, Software Engineering, AI, and related computing disciplines at Superior University.",
     },
     {
-      q: "How do I receive official ACM International credentials and certification?",
-      a: "Active participation in SIG research groups, hackathon final teams, and workshop completions unlocks cryptographically verifiable digital certificates endorsed by ACM International.",
+      q: "How can I attend upcoming seminars and workshops?",
+      a: "Upcoming events are announced on our Events page and through our official LinkedIn, Facebook, and Instagram channels. You can register directly through the event detail links.",
     },
     {
-      q: "How can I propose or lead a student workshop, tech talk, or Special Interest Group (SIG)?",
-      a: "Submit an inquiry choosing 'Technical Workshop / Collaboration' or contact our Director of Technology (Hamza Shaikh) to schedule an open session for the chapter.",
+      q: "How do I apply for a role in one of the sub-committees?",
+      a: "Recruitment drives for the IT, Events, Marketing, PR, HR, Creative, and Social Media committees are announced each academic term. You can submit a message through this contact form expressing your interest.",
     },
     {
-      q: "How do corporate sponsors and tech firms partner with our chapter for hiring?",
-      a: "We offer dedicated sponsorship tiers for DevDay and hackathons, resume book access to top 10% competitive coders, and keynote campus recruitment presentations.",
+      q: "How can industry partners and guest speakers collaborate with Superior ACM?",
+      a: "We actively collaborate with tech companies, industry leaders, and startup founders for seminars, mentoring sessions, and hiring drives. Please select 'Industry Collaboration / Sponsorship' in the form below.",
     },
   ];
 
@@ -53,18 +54,18 @@ export default function ContactPage() {
       <section className="relative pt-12 lg:pt-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-5">
         <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-sky-100/80 border border-sky-300 text-sky-800 text-xs font-semibold badge-glow">
           <Mail className="w-3.5 h-3.5 text-sky-600" />
-          <span>CAMPUS HEADQUARTERS &amp; OFFICIAL DISPATCH</span>
+          <span>SUPERIOR ACM SOCIETY • CAMPUS HEADQUARTERS</span>
         </div>
 
         <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.15]">
           Get In Touch With{" "}
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-600 via-cyan-600 to-blue-700">
-            ACM Chapter
+            Superior ACM
           </span>
         </h1>
 
         <p className="text-base text-slate-600 max-w-2xl mx-auto leading-relaxed">
-          Have a workshop proposal, sponsorship inquiry, team collaboration, or question? Connect directly with our executive council and faculty advisors.
+          Have a question about our chapter, a collaboration proposal, an event inquiry, or want to join a committee? Reach out to our executive council.
         </p>
 
         {/* Telemetry Badges */}
@@ -73,10 +74,10 @@ export default function ContactPage() {
             Avg Response: &lt; 24 Hrs
           </span>
           <span className="px-3 py-1 rounded-full bg-white border border-sky-200 text-sky-800 shadow-xs">
-            CS Lab 302 Active
+            Superior University Main Campus
           </span>
           <span className="px-3 py-1 rounded-full bg-white border border-sky-200 text-sky-800 shadow-xs">
-            TLS v1.3 Encrypted
+            Lahore, Pakistan
           </span>
         </div>
       </section>
@@ -87,8 +88,8 @@ export default function ContactPage() {
           {/* Left Col: Contact Form */}
           <div className="lg:col-span-7 glass-panel p-8 sm:p-10 rounded-3xl border border-sky-200 space-y-6 shadow-md">
             <div className="border-b border-sky-100 pb-4">
-              <span className="text-[10px] font-mono text-sky-600 font-bold uppercase tracking-widest">DISPATCH TERMINAL</span>
-              <h2 className="text-2xl font-bold text-slate-900 mt-1">Send Official Chapter Message</h2>
+              <span className="text-[10px] font-mono text-sky-600 font-bold uppercase tracking-widest">CHAPTER DISPATCH</span>
+              <h2 className="text-2xl font-bold text-slate-900 mt-1">Send a Message</h2>
             </div>
 
             {submitted ? (
@@ -96,16 +97,16 @@ export default function ContactPage() {
                 <div className="w-16 h-16 rounded-full bg-emerald-100 border border-emerald-300 text-emerald-600 flex items-center justify-center mx-auto">
                   <CheckCircle2 className="w-8 h-8" />
                 </div>
-                <h3 className="text-2xl font-bold text-slate-900">Dispatch Transmitted!</h3>
+                <h3 className="text-2xl font-bold text-slate-900">Message Transmitted!</h3>
                 <p className="text-xs sm:text-sm text-slate-600 max-w-sm mx-auto">
-                  Thank you, {formData.name}. Our chapter general secretary and relevant lead have received your message and will respond within 24 hours.
+                  Thank you, {formData.name}. The Superior ACM Society executive team has received your message and will respond shortly.
                 </p>
                 <div className="pt-2">
                   <button
                     onClick={() => setSubmitted(false)}
                     className="px-5 py-2 rounded-xl text-xs font-semibold text-sky-700 bg-sky-50 border border-sky-300"
                   >
-                    Send Another Dispatch
+                    Send Another Message
                   </button>
                 </div>
               </div>
@@ -117,7 +118,7 @@ export default function ContactPage() {
                     <input
                       type="text"
                       required
-                      placeholder="e.g. Alex Rivera"
+                      placeholder="e.g. Muhammad Ali"
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                       className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-sky-300 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-sky-500 shadow-xs"
@@ -127,7 +128,7 @@ export default function ContactPage() {
                     <label className="block text-xs font-semibold text-slate-700 mb-1">Student ID / Roll No.</label>
                     <input
                       type="text"
-                      placeholder="STU-2024-9842"
+                      placeholder="e.g. BCS-F23-102"
                       value={formData.studentId}
                       onChange={(e) => setFormData({ ...formData, studentId: e.target.value })}
                       className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-sky-300 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-sky-500 shadow-xs"
@@ -136,11 +137,11 @@ export default function ContactPage() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-slate-700 mb-1">University / Work Email *</label>
+                  <label className="block text-xs font-semibold text-slate-700 mb-1">Email Address *</label>
                   <input
                     type="email"
                     required
-                    placeholder="alex@university.edu"
+                    placeholder="name@superior.edu.pk or personal email"
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-sky-300 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-sky-500 shadow-xs"
@@ -154,20 +155,19 @@ export default function ContactPage() {
                     onChange={(e) => setFormData({ ...formData, category: e.target.value })}
                     className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-sky-300 text-xs text-slate-900 focus:outline-none focus:border-sky-500 shadow-xs"
                   >
-                    <option value="MEMBERSHIP">Membership &amp; Certifications</option>
-                    <option value="SPONSORSHIP">Corporate Sponsorship / Hiring</option>
-                    <option value="HACKATHON">DevDay 2026 / Hackathons</option>
-                    <option value="WORKSHOP">Workshop Proposal / SIG</option>
-                    <option value="GENERAL">General Chapter Feedback</option>
+                    <option value="MEMBERSHIP">Sub-Committee Recruitment</option>
+                    <option value="SPONSORSHIP">Industry Collaboration / Sponsorship</option>
+                    <option value="EVENTS">Seminars &amp; Workshops Inquiry</option>
+                    <option value="FEEDBACK">General Feedback &amp; Ideas</option>
                   </select>
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-slate-700 mb-1">Message / Proposal Details *</label>
+                  <label className="block text-xs font-semibold text-slate-700 mb-1">Message Details *</label>
                   <textarea
                     required
                     rows={4}
-                    placeholder="Describe your inquiry, project proposal, or feedback..."
+                    placeholder="Describe your inquiry, proposed topic, or questions..."
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                     className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-sky-300 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-sky-500 shadow-xs"
@@ -180,7 +180,7 @@ export default function ContactPage() {
                     className="w-full py-3.5 rounded-xl text-xs font-semibold text-white bg-gradient-to-r from-sky-500 via-sky-600 to-blue-600 hover:from-sky-400 hover:to-blue-500 shadow-[0_4px_16px_rgba(14,165,233,0.35)] transition-all flex items-center justify-center gap-2"
                   >
                     <Send className="w-3.5 h-3.5" />
-                    <span>Transmit Message to Executive Board →</span>
+                    <span>Send Message to Superior ACM Society →</span>
                   </button>
                 </div>
               </form>
@@ -192,48 +192,70 @@ export default function ContactPage() {
             <TiltCard className="glass-panel p-7 border border-sky-200 space-y-4 shadow-sm">
               <div className="flex items-center gap-2 text-sky-600">
                 <MapPin className="w-5 h-5" />
-                <h3 className="text-lg font-bold text-slate-900">Campus Headquarters</h3>
+                <h3 className="text-lg font-bold text-slate-900">Campus Location</h3>
               </div>
               <p className="text-xs text-slate-600 leading-relaxed">
-                CS Innovation Lab (CS-302), 3rd Floor, Alan Turing Hall, State University Campus.
+                Faculty of Computer Science &amp; Information Technology, Superior University, Main Campus, Raiwind Road, Lahore, Punjab, Pakistan.
               </p>
               <div className="text-[11px] font-mono text-sky-700 font-semibold">
-                Coordinates: 42.3601° N, 71.0942° W • Active Lab
+                Main Campus • CS &amp; IT Department
               </div>
               <div className="space-y-1.5 pt-2 text-xs text-slate-500 border-t border-slate-200">
                 <div className="flex items-center gap-2">
                   <Clock className="w-3.5 h-3.5 text-sky-600" />
-                  <span>Mon - Fri: 09:00 AM - 08:00 PM EST</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Clock className="w-3.5 h-3.5 text-sky-600" />
-                  <span>Saturday Hack Hours: 10:00 AM - 05:00 PM EST</span>
+                  <span>Mon - Fri: 08:30 AM - 04:30 PM PKT</span>
                 </div>
               </div>
             </TiltCard>
 
             <TiltCard className="glass-panel p-7 border border-sky-200 space-y-4 shadow-sm">
-              <h3 className="text-lg font-bold text-slate-900">Real-Time Community Channels</h3>
-              <div className="space-y-3">
+              <h3 className="text-lg font-bold text-slate-900">Official Social &amp; Community Channels</h3>
+              <div className="space-y-2.5">
                 <a
-                  href="https://discord.com"
+                  href="https://www.linkedin.com/company/superior-acm-society/"
                   target="_blank"
                   rel="noreferrer"
                   className="flex items-center justify-between p-3 rounded-xl bg-sky-50/80 border border-sky-200 hover:border-sky-400 text-xs text-slate-700 hover:text-sky-700 transition-all"
                 >
                   <div className="flex items-center gap-2.5">
-                    <MessageSquare className="w-4 h-4 text-sky-600" />
-                    <span className="font-semibold">Official Chapter Discord</span>
+                    <LinkedinIcon className="w-4 h-4 text-sky-600" />
+                    <span className="font-semibold">Superior ACM Society</span>
                   </div>
-                  <span className="text-[10px] font-mono text-emerald-600 font-bold">1,420 Online</span>
+                  <span className="text-[10px] font-mono text-sky-600 font-bold">LinkedIn ↗</span>
+                </a>
+
+                <a
+                  href="https://www.facebook.com/share/1Bzt9cGbLj/"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="flex items-center justify-between p-3 rounded-xl bg-sky-50/80 border border-sky-200 hover:border-sky-400 text-xs text-slate-700 hover:text-sky-700 transition-all"
+                >
+                  <div className="flex items-center gap-2.5">
+                    <FacebookIcon className="w-4 h-4 text-sky-600" />
+                    <span className="font-semibold">Superior ACM Society</span>
+                  </div>
+                  <span className="text-[10px] font-mono text-sky-600 font-bold">Facebook ↗</span>
+                </a>
+
+                <a
+                  href="https://instagram.com/superior_acm"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="flex items-center justify-between p-3 rounded-xl bg-sky-50/80 border border-sky-200 hover:border-sky-400 text-xs text-slate-700 hover:text-sky-700 transition-all"
+                >
+                  <div className="flex items-center gap-2.5">
+                    <InstagramIcon className="w-4 h-4 text-sky-600" />
+                    <span className="font-semibold">@superior_acm</span>
+                  </div>
+                  <span className="text-[10px] font-mono text-sky-600 font-bold">Instagram ↗</span>
                 </a>
 
                 <div className="flex items-center justify-between p-3 rounded-xl bg-sky-50/80 border border-sky-200 text-xs text-slate-700">
                   <div className="flex items-center gap-2.5">
                     <Mail className="w-4 h-4 text-sky-600" />
-                    <span className="font-semibold">Official Email</span>
+                    <span className="font-semibold">Society Email</span>
                   </div>
-                  <span className="text-[11px] font-mono text-sky-600 font-bold">contact@acmchapter.org</span>
+                  <span className="text-[11px] font-mono text-sky-600 font-bold">acm@superior.edu.pk</span>
                 </div>
               </div>
             </TiltCard>
@@ -244,7 +266,7 @@ export default function ContactPage() {
       {/* 3. FAQ ACCORDION */}
       <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
         <div className="text-center space-y-2">
-          <span className="text-xs font-bold text-sky-700 uppercase tracking-wider">KNOWLEDGE BASE</span>
+          <span className="text-xs font-bold text-sky-700 uppercase tracking-wider">QUESTIONS &amp; ANSWERS</span>
           <h2 className="text-3xl font-extrabold text-slate-900">Frequently Asked Questions</h2>
         </div>
 
