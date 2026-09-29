@@ -69,6 +69,34 @@ const councilMembers: Member[] = [
     linkedin: "https://www.linkedin.com/in/atika-batool-567299383",
   },
   {
+    id: 15,
+    name: "Arslan Naeem",
+    role: "Development Head",
+    category: "DEVELOPMENT",
+    department: "Development Committee",
+    initials: "AN",
+    bio: "Leads software engineering, technical architecture, and web application development across all chapter digital initiatives.",
+    skills: ["Full Stack", "Architecture", "Team Leadership", "Web Dev"],
+    image: "/team/arslan.png",
+    github: "https://github.com/ArslanDhillon",
+    linkedin: "https://www.linkedin.com/in/arslan-naeem-851ba9347/",
+  },
+  {
+    id: 16,
+    name: " Farrukh Maqsood",
+    role: "Development Co-head",
+    category: "DEVELOPMENT",
+    department: "Development Committee",
+    initials: "FM",
+    bio: "Leads software engineering, technical architecture, and web application development across all chapter digital initiatives.",
+    skills: ["Full Stack", "Architecture", "Team Leadership", "Web Dev"],
+    image: "/team/farrukh.jpeg",
+
+    linkedin: "https://www.linkedin.com/in/farrukh-maqsood-625a08383",
+  },
+
+
+  {
     id: 4,
     name: "Abdullah Javed",
     role: "Marketing Head",
@@ -358,7 +386,7 @@ export default function MembersPage() {
             </span>
           </h1>
           <p className="text-base text-slate-600 max-w-2xl mx-auto leading-relaxed">
-            14 dedicated student leaders across specialized sub-committees, working together to foster technical excellence and community empowerment at Superior University Lahore.
+            {councilMembers.length} dedicated student leaders across specialized sub-committees, working together to foster technical excellence and community empowerment at Superior University Lahore.
           </p>
           <div className="flex flex-wrap items-center justify-center gap-2 pt-2">
             <span className="px-3 py-1 rounded-full text-xs font-semibold bg-sky-50 border border-sky-200 text-sky-700 shadow-xs">⚡ Technical &amp; IT</span>
@@ -370,7 +398,7 @@ export default function MembersPage() {
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mt-12">
           {[
             { value: "500+", label: "Active Members" },
-            { value: "14", label: "Council Leaders" },
+            { value: councilMembers.length.toString(), label: "Council Leaders" },
             { value: "100%", label: "Student Driven" },
             { value: "ACM", label: "Global Affiliation" },
           ].map((s, i) => (
