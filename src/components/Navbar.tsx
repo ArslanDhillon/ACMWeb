@@ -79,7 +79,7 @@ export default function Navbar() {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-sky-200/80 bg-white/90 backdrop-blur-xl transition-all duration-300 shadow-[0_4px_20px_rgba(14,165,233,0.06)]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 flex items-center justify-between gap-4 py-3">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 flex items-center justify-between gap-4 py-3 relative">
 
         {/* Brand / Logo */}
         <Link href="/" className="flex items-center gap-3 group flex-shrink-0">
@@ -95,8 +95,8 @@ export default function Navbar() {
           </div>
         </Link>
 
-        {/* Desktop Navigation */}
-        <nav className="hidden lg:flex items-center gap-0.5" ref={dropdownRef}>
+        {/* Desktop Navigation (Centered) */}
+        <nav className="hidden lg:flex items-center justify-center gap-1 absolute left-1/2 -translate-x-1/2" ref={dropdownRef}>
           {navItems.map((item) => {
             const isActive = pathname === item.href || (item.href !== "/" && pathname.startsWith(item.href));
             const hasChildren = item.children && item.children.length > 0;
