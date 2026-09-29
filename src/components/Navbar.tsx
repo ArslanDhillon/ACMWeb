@@ -8,8 +8,6 @@ import {
   Menu,
   X,
   ChevronDown,
-  LogIn,
-  UserPlus,
 } from "lucide-react";
 
 type NavItem = {
@@ -32,7 +30,7 @@ const navItems: NavItem[] = [
   { name: "Events", href: "/events" },
   { name: "Team", href: "/members" },
   { name: "Gallery", href: "/gallery" },
-  { name: "Resources", href: "/resources" },
+  { name: "ACM-W", href: "/acm-w" },
   { name: "Contact", href: "/contact" },
 ];
 
@@ -139,31 +137,6 @@ export default function Navbar() {
           })}
         </nav>
 
-        {/* Sign In + Sign Up Buttons / Auth Status */}
-        <div className="hidden sm:flex items-center gap-2 flex-shrink-0">
-          <Link
-            href="/auth/signin"
-            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold text-sky-700 bg-white border border-sky-300 hover:bg-sky-50 hover:border-sky-400 transition-all shadow-sm whitespace-nowrap"
-          >
-            <LogIn className="w-3.5 h-3.5" />
-            <span>Sign In</span>
-          </Link>
-          <Link
-            href="/auth/signup"
-            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold text-white bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-400 hover:to-blue-500 shadow-[0_4px_16px_rgba(14,165,233,0.35)] hover:shadow-[0_6px_20px_rgba(14,165,233,0.5)] transition-all transform hover:-translate-y-0.5 whitespace-nowrap"
-          >
-            <UserPlus className="w-3.5 h-3.5" />
-            <span>Sign Up</span>
-          </Link>
-          <Link
-            href="/dashboard"
-            className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold text-sky-800 bg-sky-50 border border-sky-200 hover:bg-sky-100 transition-all whitespace-nowrap"
-            title="Member Portal"
-          >
-            <span>Portal</span>
-          </Link>
-        </div>
-
         {/* Mobile Toggle */}
         <button
           onClick={() => setIsOpen(!isOpen)}
@@ -209,22 +182,6 @@ export default function Navbar() {
                 </div>
               );
             })}
-          </div>
-          <div className="mt-4 pt-4 border-t border-slate-200 flex gap-2">
-            <Link
-              href="/auth/signin"
-              onClick={() => setIsOpen(false)}
-              className="flex-1 text-center py-2.5 rounded-xl text-xs font-semibold text-sky-700 bg-white border border-sky-300"
-            >
-              Sign In
-            </Link>
-            <Link
-              href="/auth/signup"
-              onClick={() => setIsOpen(false)}
-              className="flex-1 text-center py-2.5 rounded-xl text-xs font-semibold text-white bg-gradient-to-r from-sky-500 to-blue-600 shadow-[0_4px_16px_rgba(14,165,233,0.35)]"
-            >
-              Sign Up
-            </Link>
           </div>
         </div>
       )}
